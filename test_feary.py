@@ -224,10 +224,13 @@ counter_q = 0
 
 def next_question():
     global counter_q
-    q = question_list[counter_q]
-    counter_q += 1
-    ask(q)
-    result()
+    if counter_q <= 9:
+        q = question_list[counter_q]
+        counter_q += 1
+        ask(q)
+    else
+        result()
+
 
 def click_OK():
     if button.text() == 'Ответить':
