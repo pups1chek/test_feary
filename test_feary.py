@@ -163,8 +163,14 @@ def show_question():
 
 answers = [a_button ,a1_button ,a2_button, a3_button]
 
+#счетчики
+a_score = 0
+b_score = 0
+c_score = 0
+d_score = 0
+
+
 def ask(q: Question):
-    shuffle(answers)
     answers[0].setText(q.ans1)
     answers[1].setText(q.ans2)
     answers[2].setText(q.ans3)
@@ -180,48 +186,48 @@ def ask(q: Question):
 
 def check_answer():
     if answers[0].isChecked():
-        show_correct('отлично!')
+        global a_score
         a_score += 1
+        show_result()
     if answers[1].isChecked():
-        show_correct('отлично!')
+        global b_score
         b_score += 1
+        show_result()
     if answers[2].isChecked():
-        show_correct('отлично!')
+        global c_score
         c_score += 1
+        show_result()
     if answers[3].isChecked():
-        show_correct('отлично!')
+        global d_score
         d_score += 1
+        show_result()
 
 def result():
     if a_score > b_score and a_score > c_score and a_score > d_score: 
-        label.setText('блум смелые и решительные, быстро примете верное решение в опасной ситуации. часто берёте лидерство на себя. не верите в себя, но ваши друзья постоянно доказывают вам обратное. имейте "тёмную сторону" о которой знают только ваши близкие')
-        window1.show()
+        label.setText('блум /n  смелые и решительные, быстро примете верное решение в опасной ситуации. часто берёте лидерство на себя. не верите в себя, но ваши друзья постоянно доказывают вам обратнoe.')
+        
     if b_score > a_score and b_score > c_score and b_score > d_score: 
-        label.setText('текна: /n вы тот человек, которыйшутит с лицом без эмоций.терпеливы, но всегда поставите на место, если это нужно. вы невероятно умны, скорее всего математик. часто сомневайтесь в своём выборе ориентации, а потом такие: ой, да кого это вообще')
-        window1.show()
+        label.setText('текна /n вы тот человек, которыйшутит с лицом без эмоций.терпеливы, но всегда поставите на место, если это нужно. вы невероятно умны, скорее всего математик. ')
+        
     if c_score > b_score and c_score > a_score and c_score > d_score: 
-        label.setText('муза я хочу вас обнять ((( вероятно есть проблемы с родителями, а может, они даже отсутствуют у вас. очень ранимы и импульсивны, вам трудно понимать шутки ваших друзей. немного капризны. может быть хорошо играйте на одном/нескольких музыкальных инструментах, может состояли в абьюзивных отношениях? в любом случае, вы солнышки')
-        window1.show()
+        label.setText('муза  /n я хочу вас обнять ((( . очень ранимы и импульсивны, вам трудно понимать шутки ваших друзей. немного капризны. в любом случае, вы солнышки')
     if d_score > b_score and d_score > c_score and d_score > a_score: 
-        label.setText('флора как бы то не звучало, вы сразу любители природы, вероятнее, у вас есть место ( озеро/полянка) куда вы сбегайте, чтобы подумать. мягкосердечны, иногда/часто люди этим пользуются в свою угоду. любите маленькие подарочки. храните фотографию любимых под чехлом')
-        window1.show()        
+        label.setText('флора /n как бы то не звучало, вы сразу любители природы. любите маленькие подарочки. храните фотографию любимых под чехлом')        
     if a_score >= b_score : 
-        label.setText('стелла  эмоцианальны и хаотичны, шумные. любите, когда внимание направлено на вас. в компании вы тот, кто всегда покупает кому-то что-либо. отличный вкус в одежде, поэтому друзья часто восхищаются вами. боитесь, что вас любят только за внешность')
-        window1.show()
+        label.setText('стелла /n эмоцианальны и хаотичны, шумные. любите, когда внимание направлено на вас. в компании вы тот, кто всегда покупает кому-то что-либо. отличный вкус в одежде')
     if b_score <= c_score or b_score >= a_score:
-        label.setText('лейла ваша жизнь - спорт. скорее всего, нет любимого вида, потому что пробовали уже всё. постоянно активны, но иногда вам нужно время побыть одному/й. поддержите, даже если на это нет сил. готовы взять на себя лидерство, но только если этого попросят')
-        window1.show()
+        label.setText('лейла /n ваша жизнь - спорт. скорее всего, нет любимого вида, потому что пробовали уже всё. постоянно активны, но иногда вам нужно время побыть одному/й. готовы взять на себя лидерство.')
 
 
 
-
+counter_q = 0
 
 def next_question():
-    window.total += 1
-    print(f'Статистика\n Всего вопросов: {window.total} \n Правильных ответов:{window.score}')
-    cur_question = randint(0,len(question_list)-1)
-    q = question_list[cur_question]
+    global counter_q
+    q = question_list[counter_q]
+    counter_q += 1
     ask(q)
+    result()
 
 def click_OK():
     if button.text() == 'Ответить':
@@ -230,18 +236,11 @@ def click_OK():
         next_question()
 
 window = QWidget()
-window1 = QWidget()
-
 window.setLayout(layout_card)
 window.setWindowTitle('Тест на фею')
-
-window1.setLayout(layout_card)
-window1.setWindowTitle('Результат теста')
-
 button.clicked.connect(click_OK)
-
 window.score = 0
-window.total = 0 
+
 
 next_question()
 window.resize(400,300)
